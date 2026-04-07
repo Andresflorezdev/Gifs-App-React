@@ -18,6 +18,7 @@ export const useGifs = () => {
         
         const gifs = await getGifsByQuery(term);
         setGifs(gifs);
+        gifsCache.current[term] = gifs
     };
     
     const handleSearch = async( query: string = '' ) => {
@@ -29,21 +30,21 @@ export const useGifs = () => {
         if (previousTerms.includes(query)) return;
         // Actualizar previousTerms agregando el nuevo término al inicio 
         // y limitando a 8 elementos máximo, es decir no puede ser un arreglo de más de 8.
-        setPreviousTerms([ query, ...previousTerms].slice(0.8));
+        setPreviousTerms([ query, ...previousTerms].slice(0, 8));
     
         const gifs = await getGifsByQuery(query);
         setGifs(gifs);
 
         gifsCache.current[query] = gifs
-        console.log(gifsCache);
+        //console.log(gifsCache);
     };
     return {
         // Properties
         gifs,
+        previousTerms,
 
         // Methods
         handleSearch,
-        previousTerms,
         handleTermClicked,
     };
 };
