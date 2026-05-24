@@ -4,6 +4,7 @@ import { useGifs } from './useGifs';
 import { act } from 'react';
 import * as gifsActions from '../actions/get-gifs-by-query.action';
 import { gifMock } from '../../../test/mocks/gifs.data';
+import { mockGifs } from '../../mock-data/gifs.mock';
 
 describe('useGifs.tsx', () => {
   beforeEach(() => {
@@ -15,7 +16,7 @@ describe('useGifs.tsx', () => {
   test('should return defalut values and methods', () => {
     const { result } = renderHook(() => useGifs());
 
-    expect(result.current.gifs.length).toBe(0);
+    expect(result.current.gifs).toStrictEqual(mockGifs);
     expect(result.current.previousTerms.length).toBe(0);
     expect(result.current.handleSearch).toBeDefined();
     expect(result.current.handleTermClicked).toBeDefined();
@@ -94,13 +95,15 @@ describe('useGifs.tsx', () => {
     });
 
     expect(result.current.previousTerms.length).toBeLessThanOrEqual(8);
-    expect(result.current.previousTerms).toStrictEqual(
-        [
-            'goku9', 'goku8',
-            'goku7', 'goku6',
-            'goku5', 'goku4',
-            'goku3', 'goku2'
-        ]
-    )
+    expect(result.current.previousTerms).toStrictEqual([
+      'goku9',
+      'goku8',
+      'goku7',
+      'goku6',
+      'goku5',
+      'goku4',
+      'goku3',
+      'goku2',
+    ]);
   });
 });
